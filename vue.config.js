@@ -58,7 +58,15 @@ module.exports = {
     https: false, // 编译失败时刷新页面
     hot: true, // 开启热加载
     //hotOnly: false,
-    proxy: null, // 设置代理
+    proxy: {
+      "/devApi": {
+          target: "http://old.web-jshtml.cn/vue_admin_api", // 需要代理的域名
+          changeOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求							的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
+          pathRewrite: {  //重写匹配的字段，如果不需要在请求路径上，重写为""
+              "^/devApi": ""//用于替换
+          }
+      }
+    }
     // overlay: { // 全屏模式下是否显示脚本错误
     //   warnings: true,
     //   errors: true
