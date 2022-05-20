@@ -1,6 +1,6 @@
 <template>
   <div>
-      用户列表
+        信息列表
   </div>
 </template>
 

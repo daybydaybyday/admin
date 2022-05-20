@@ -1,4 +1,7 @@
 const path = require('path');
+const webpack = require('webpack')
+function resolve(dir) {
+   return path.join(__dirname, dir)}
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
@@ -9,12 +12,27 @@ module.exports = {
   /**
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
-  chainWebpack: (config) => {
+   
+   chainWebpack: config => {
+    config.module.rules.delete("svg"); //重点:删除默认配置中处理svg,
+    config.module
+      .rule('svg-sprite-loader')
+      .test(/\.svg$/)
+      .include
+      .add(resolve('src/icons')) //处理svg目录（根据你建的文件路径）
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
   },
+
   configureWebpack: (config) => {
     config.resolve = { // 配置解析别名
       extensions: ['.js', '.json', '.vue'],
       alias: {
+        'vue': 'vue/dist/vue.js',
         '@': path.resolve(__dirname, './src'),
         'public': path.resolve(__dirname, './public'),
         'components': path.resolve(__dirname, './src/components'),
@@ -36,7 +54,7 @@ module.exports = {
     // css预设器配置项
     loaderOptions: {
       // 如发现 css.modules 报错，请查看这里：http://www.web-jshtml.cn/#/detailed?id=12
-      scss: { 
+      scss: {
         additionalData: `@import "./src/styles/main.scss";`
       }
     },
@@ -60,11 +78,11 @@ module.exports = {
     //hotOnly: false,
     proxy: {
       "/devApi": {
-          target: "http://old.web-jshtml.cn/vue_admin_api", // 需要代理的域名
-          changeOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求							的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
-          pathRewrite: {  //重写匹配的字段，如果不需要在请求路径上，重写为""
-              "^/devApi": ""//用于替换
-          }
+        target: "http://old.web-jshtml.cn/vue_admin_api", // 需要代理的域名
+        changeOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求							的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
+        pathRewrite: { //重写匹配的字段，如果不需要在请求路径上，重写为""
+          "^/devApi": "" //用于替换
+        }
       }
     }
     // overlay: { // 全屏模式下是否显示脚本错误

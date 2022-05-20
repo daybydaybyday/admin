@@ -217,6 +217,7 @@ export default {
       clearCountDown();//倒计时按钮的改变
       loginButtonStatus.value=true;
     };
+
     //提交表单
     const submitForm = (formName) => {
       context.refs[formName].validate((valid) => {
@@ -307,6 +308,9 @@ export default {
           Login(requestData).then((response) => {
             let data = response.data;
             //路由跳转
+             context.root.$router.push({
+               name:'Console'
+             })
             console.log(data)
           }).catch(error=>{
             //失败时执行的代码
