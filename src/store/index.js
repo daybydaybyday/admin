@@ -3,10 +3,12 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import app from './modules/app'
+import login from './modules/login'
+
 export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
-});
+    modules:{
+        app,
+        login
+    }
+})

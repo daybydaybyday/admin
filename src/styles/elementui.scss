@@ -2,10 +2,9 @@
 //由于组件是有权限的，当我们修改一些组件的样式时，会被限制，此时加上！important 会解决这个问题
 .el-submenu .el-menu-item{
     font-size: 14px; 
-    padding-left: 48px !important; 
+    padding-left: 64px !important; 
     &.is-active {background-color: rgba(245,108,108,.2) !important;}
 }
-
 
 li.el-submenu{
     &.is-active.is-opened .el-submenu__title{
@@ -13,3 +12,6 @@ li.el-submenu{
     }
 }
 
+.el-menu-vertical-demo{
+ border-style: none;
+}

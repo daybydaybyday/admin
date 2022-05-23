@@ -304,8 +304,7 @@ export default {
             code: ruleForm.code,
             module: "login",
           };
-          //登录接口
-          Login(requestData).then((response) => {
+          context.root.$store.dispatch('app/login',requestData).then((response) => {
             let data = response.data;
             //路由跳转
              context.root.$router.push({
@@ -315,6 +314,17 @@ export default {
           }).catch(error=>{
             //失败时执行的代码
           })
+          //登录接口
+          // Login(requestData).then((response) => {
+          //   let data = response.data;
+          //   //路由跳转
+          //    context.root.$router.push({
+          //      name:'Console'
+          //    })
+          //   console.log(data)
+          // }).catch(error=>{
+          //   //失败时执行的代码
+          // })
     })
 
     //注册

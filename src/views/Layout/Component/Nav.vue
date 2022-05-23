@@ -4,10 +4,8 @@
     <el-menu
       default-active="1-4-1"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       :collapse="isCollapse"
-      background-color="transparent"
+      background-color="#344a5f"
       text-color="#fff"
       active-text-color="#fff"
       router
@@ -36,27 +34,19 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "@vue/composition-api";
+import { onMounted, reactive, ref, computed } from "@vue/composition-api";
 export default {
   name: "",
   setup(props, { root }) {
     //数据
-    const isCollapse = ref(false); //收起展开状态
     const routes = reactive(root.$router.options.routes);
 
     //函数
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
+    const isCollapse = computed(() => root.$store.state.app.isCollapse);
 
     return {
       isCollapse,
       routes,
-      handleOpen,
-      handleClose,
     };
   },
 };
@@ -70,9 +60,26 @@ export default {
   width: $navMenu;
   height: 100vh;
   background-color: #344a5f;
+  @include webkit(transition, 0.3s ease 0s);
   svg {
     font-size: 18px;
-    margin-right: 10px;
+    margin-right: 26px;
+  }
+}
+.open {
+  #nav-wrap {
+    width: $navMenu;
+  }
+}
+.close {
+  #nav-wrap {
+    width: $navMenuMix;
+    img {
+      margin: auto;
+      width: 38px;
+      margin-top: 28px;
+      margin-bottom: 25px;
+    }
   }
 }
 li {
@@ -80,9 +87,9 @@ li {
 }
 
 img {
-  margin:auto;
+  margin: auto;
   width: 92px;
-  margin-top:28px;
-  margin-bottom: 25px; 
+  margin-top: 28px;
+  margin-bottom: 25px;
 }
 </style>

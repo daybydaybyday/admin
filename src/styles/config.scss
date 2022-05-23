@@ -3,3 +3,15 @@
 //菜单宽度
 $navMenu:250px;
 $headerMenu:75px;
+$navMenuMix:64px;
+
+
+
+
+@mixin webkit($type, $value) {
+    -webkit-#{$type}: $value;
+    -moz-#{$type}: $value;
+    -o-#{$type}: $value;
+    -ms-#{$type}: $value;
+    -#{$type}: $value;
+}
