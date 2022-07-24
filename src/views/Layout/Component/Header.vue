@@ -17,13 +17,12 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
+import { computed,ref } from '@vue/composition-api'
+import {getUserName} from '@/utils/app'
 export default {
   name: '',
   setup(props,{root}){
-    const username=computed(()=>{
-      root.$store.state.app.username
-    })
+    const username = computed(()=>getUserName())//调用的是cookie中的用户名
     const navMenuState = ()=> {
       root.$store.commit('app/SET_COLLAPSE')
       //root.$store.dispatch('setMenuStatus',{"name":"aaa"})

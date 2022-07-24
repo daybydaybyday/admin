@@ -29,3 +29,8 @@ export function validateVCode(value) {
     return !reg.test(value) ? true : false
     //没有通过验证时，才会出现下边的反应，所以！
 }
+
+
+
+
+//一些验证

@@ -1,7 +1,10 @@
 const path = require('path');
 const webpack = require('webpack')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+
 function resolve(dir) {
-   return path.join(__dirname, dir)}
+  return path.join(__dirname, dir)
+}
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
@@ -12,8 +15,8 @@ module.exports = {
   /**
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
-   
-   chainWebpack: config => {
+
+  chainWebpack: config => {
     config.module.rules.delete("svg"); //重点:删除默认配置中处理svg,
     config.module
       .rule('svg-sprite-loader')
@@ -29,6 +32,8 @@ module.exports = {
   },
 
   configureWebpack: (config) => {
+    const plugins = []
+    plugins.push(new NodePolyfillPlugin())
     config.resolve = { // 配置解析别名
       extensions: ['.js', '.json', '.vue'],
       alias: {

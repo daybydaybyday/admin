@@ -1,6 +1,7 @@
 //拦截器
 import axios from 'axios'
 import { Message } from 'element-ui';
+import {getToken,getUserName} from './app'
 
 //创建axios，赋给变量instance
 
@@ -21,6 +22,8 @@ service.interceptors.request.use(function (config) {
 
 
     //最终目的是在请求头参加参数
+    config.headers['Tokey']= getToken()
+    config.headers['UserName']= getUserName()
 
     return config;
   }, function (error) {

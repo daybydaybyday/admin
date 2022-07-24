@@ -15,3 +15,16 @@ $navMenuMix:64px;
     -ms-#{$type}: $value;
     -#{$type}: $value;
 }
+
+
+@mixin labelDom($align,$width,$line-height:"normal") {
+        label{
+          float: left;
+          width:$width + px;
+          line-height:$line-height + px;
+          text-align: $align;
+        }
+        .warp-content{
+          margin-left:60px;
+        }
+}

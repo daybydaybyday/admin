@@ -15,3 +15,38 @@ li.el-submenu{
 .el-menu-vertical-demo{
  border-style: none;
 }
+
+//table样式
+div.el-table {
+    td div,th div { text-align: center; }
+    th{
+        font-weight: bold;
+        color:#344a5f;
+    }
+}
+
+
+//table样式
+.el-dialog__body{
+    padding: 30px 47px !important;
+}
+.el-dialog__footer{
+    text-align: center !important;
+    .el-button{
+        width:150px;
+        font-size: 15px;
+        margin:0 11px;
+    }
+}
+
+div.el-form-item{
+    margin-bottom: 22px;
+}
+
+//form样式
+.el-form{
+    .el-form-item:last-child{
+        margin-bottom: 0 !important;
+    }
+}
+

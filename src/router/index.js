@@ -61,7 +61,7 @@ const routes = [{
           name:'信息列表'
         },
         component: () =>
-          import("../views/Console/index.vue")
+          import("../views/Info/index.vue")
       },
       {
         path: "/infoCategory",
