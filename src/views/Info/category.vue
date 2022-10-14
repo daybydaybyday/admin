@@ -3,7 +3,7 @@
     <el-row>
       <el-button
         type="danger"
-        style="float: left"
+        style="float: left" 
         @click="addFirst({ type: 'category_first_add' })"
         >添加一级分类</el-button
       >
@@ -349,8 +349,8 @@ export default {
     content: "";
     position: absolute;
     left: 22px;
-    top: 0;
-    bottom: 0;
+    top: 15px;
+    bottom: -15px;
     width: 32px;
     border-left: 1px dotted #000;
   }

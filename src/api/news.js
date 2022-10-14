@@ -89,3 +89,12 @@ export function EditCategory(data) {
     })
 }
 
+//获取七牛云Token
+export function QiniuToken(data) {
+    return service.request({
+        method: "post",
+        url: "/uploadImgToken/",
+        data
+    })
+}
+

@@ -19,13 +19,15 @@
             <svg-icon :iconClass="item.meta.icon" className="menu"></svg-icon>
             <span slot="title">{{ item.meta.name }}</span>
           </template>
-
-          <el-menu-item
-            v-for="(subItem, index) in item.children"
+          <template v-for="(subItem, index) in item.children">
+            <el-menu-item
+            v-if="!subItem.hidden"
             :key="subItem.id"
             :index="subItem.path"
             >{{ subItem.meta.name }}</el-menu-item
           >
+          </template>
+          
           <!-- 遍历每一个item中的subItem  跳转的路由用index绑定 -->
         </el-submenu>
       </template>

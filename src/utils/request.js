@@ -5,9 +5,9 @@ import {getToken,getUserName} from './app'
 
 //创建axios，赋给变量instance
 
-const BASEURL = process.env.NODE_ENV === 'production' ? '' : '/devApi'
+const BASEURL = process.env.NODE_ENV === 'production' ? '' : '/devApi'//输出文件的目录
 const service = axios.create({
-  baseURL: BASEURL,//http://172.16.49.91:8080/devApi==http://old.web-jshtml.cn/vue_admin_api
+  baseURL: BASEURL,//http://172.16.49.91:8080==http://old.web-jshtml.cn/vue_admin_api
   timeout: 10000//设置偏长一点，因为网络请求需要一定的时间
 });
 
@@ -41,7 +41,7 @@ service.interceptors.response.use(function (response) {
     if(data.resCode !== 0 ){
       Message.error(data.message)
       return Promise.reject(data);
-    }else{
+    }else{//正常的情况下rescode为0（和后端沟通好状态标识）
       return response
       //return Promise.resolve(data)
     }

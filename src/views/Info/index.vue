@@ -66,7 +66,11 @@
         ></el-input>
       </el-col>
       <el-col :span="2">
-        <el-button type="danger" style="width: 100%" size="small" @click="search"
+        <el-button
+          type="danger"
+          style="width: 100%"
+          size="small"
+          @click="search"
           >搜索</el-button
         >
       </el-col>
@@ -87,12 +91,29 @@
     <div class="black-space-30"></div>
 
     <!-- 表格 -->
-    <el-table :data="tableData.item" border style="width: 100%" v-loading="loading" @selection-change="handleSelectionChange">
+    <el-table
+      :data="tableData.item"
+      border
+      style="width: 100%"
+      v-loading="loading"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="40"> </el-table-column>
-      <el-table-column prop="title" label="标题" width="350"> </el-table-column>
-      <el-table-column prop="categoryId" label="类别" width="130" :formatter="toCategory">
+      <el-table-column prop="title" label="标题" width="300"> </el-table-column>
+      <el-table-column
+        prop="categoryId"
+        label="类别"
+        width="110"
+        :formatter="toCategory"
+      >
       </el-table-column>
-      <el-table-column prop="createDate" label="日期" width="237" :formatter="toData"> </el-table-column>
+      <el-table-column
+        prop="createDate"
+        label="日期"
+        width="237"
+        :formatter="toData"
+      >
+      </el-table-column>
       <el-table-column prop="user" label="管理员" width="115">
       </el-table-column>
       <el-table-column prop="操作" label="操作">
@@ -104,6 +125,7 @@
           <el-button type="success" size="mini" @click="editInfo(scope.row.id)"
             >编辑</el-button
           >
+            <el-button type="success" size="mini" style="margin-left : 10px" @click="toDetailed(scope.row)">编辑详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -159,12 +181,12 @@ import DialogInfoEdit from "./dialog/edit.vue";
 import { confirm } from "@/utils/global_V3.0";
 import { common } from "@/api/common";
 import { GetList, DeleteInfo } from "@/api/news";
-import { timestampToTime } from '@/utils/common'
+import { timestampToTime } from "@/utils/common";
 export default {
   name: "",
   components: {
     DialogInfo,
-    DialogInfoEdit
+    DialogInfoEdit,
   },
   setup(props, { root }) {
     //声明  confirm直接调用  confirm()
@@ -176,15 +198,15 @@ export default {
     const { getInfoCategory, categoryItem } = common();
 
     const dialogInfo = ref(false);
-    const dialogInfoEdit = ref(false)
+    const dialogInfoEdit = ref(false);
     const categoryValue = ref("");
     const dateValue = ref("");
     const searchKey = ref("ID"); //默认值为ID
     const searchKeyWork = ref("");
-    const total = ref(0)
-    const loading = ref(true)
-    const deleteInfoId = ref('')
-    const infoId = ref('')
+    const total = ref(0);
+    const loading = ref(true);
+    const deleteInfoId = ref("");
+    const infoId = ref("");
 
     const options = reactive({
       category: [],
@@ -201,25 +223,25 @@ export default {
       },
     ]);
 
-    const page =reactive({
-      pageNumber:1,
-      pageSize:10
-    })
+    const page = reactive({
+      pageNumber: 1,
+      pageSize: 10,
+    });
 
     //表格数据
-  const tableData = reactive({
-    item:[]
-  });
+    const tableData = reactive({
+      item: [],
+    });
 
     const handleSizeChange = (val) => {
       console.log(`每页 ${val} 条`);
-      page.pageSize = val
-      getList()
+      page.pageSize = val;
+      getList();
     };
     const handleCurrentChange = (val) => {
       console.log(`当前页: ${val}`);
-      page.pageNumber = val
-      getList()
+      page.pageNumber = val;
+      getList();
     };
     const closeDialog = () => {
       dialogInfo.value = false; //vue3中访问值＋.value
@@ -227,37 +249,37 @@ export default {
     };
     //element-ui
     const deleteItem = (id) => {
-      deleteInfoId.value = [id]
+      deleteInfoId.value = [id];
       confirm({
         //注册的全局方法
         content: "此操作将永久删除该文件, 是否继续?",
         tip: "警告",
         fn: confirmDelete, //传入相应的函数
-        catchFn:()=>{}
+        catchFn: () => {},
       });
     };
     const deleteAll = () => {
-      if(!deleteInfoId.value||deleteInfoId.value.length == 0){
+      if (!deleteInfoId.value || deleteInfoId.value.length == 0) {
         root.$message({
-          message:'请选择要删除的数据！！',
-          type:'error'
-        })
+          message: "请选择要删除的数据！！",
+          type: "error",
+        });
         return false;
       }
       confirm({
         content: "此操作将删除所有文件, 是否继续?",
         type: "success",
         fn: confirmDelete, //传入相应的函数
-        catchFn:()=>{}
+        catchFn: () => {},
       });
     };
     const confirmDelete = () => {
-      DeleteInfo({id: deleteInfoId.value}).then(response=>{
-        deleteInfoId.value = ''
-        getList()
-      }).catch(err=>{
-
-      })
+      DeleteInfo({ id: deleteInfoId.value })
+        .then((response) => {
+          deleteInfoId.value = "";
+          getList();
+        })
+        .catch((err) => {});
     };
     const getInfoCategory1 = () => {
       root.$store.dispatch("common/getInfoCategory").then((response) => {
@@ -266,63 +288,81 @@ export default {
       });
     };
     const getList = () => {
-      let requestData = formatData()
+      let requestData = formatData();
       loading.value = true;
-      GetList(requestData).then((response) => {
-        let data = response.data.data
-        tableData.item = data.data
-        console.log(data)
-        total.value = data.total
-        loading.value=false
-      }).catch((err) => {
-
-      });
+      GetList(requestData)
+        .then((response) => {
+          let data = response.data.data;
+          tableData.item = data.data;
+          console.log(data);
+          total.value = data.total;
+          loading.value = false;
+        })
+        .catch((err) => {});
     };
 
-    const toData =(row, column, cellValue, index)=>{
-      console.log(row.createDate)
-      return timestampToTime(row.createDate)
-    }
-    const toCategory =(row, column, cellValue, index)=>{
-      console.log(row.categoryId)
-      let categoryId = row.categoryId
-      let categoryData = options.category.filter(item => item.id == categoryId)[0]
-      return categoryData.category_name
-    }
-    const handleSelectionChange = (val)=>{
-       let id = val.map(item => item.id)
-       deleteInfoId.value = id
-    }
-    const search = ()=>{
-      console.log(categoryValue)
-      console.log(dateValue.value)
-      console.log(searchKey)
-      console.log(searchKeyWork)
-      let requestData = formatData()
-      console.log(requestData)
-      getList()
-    }
-    const formatData = ()=>{
+    const toData = (row, column, cellValue, index) => {
+      console.log(row.createDate);
+      return timestampToTime(row.createDate);
+    };
+    const toCategory = (row, column, cellValue, index) => {
+      console.log(row.categoryId);
+      let categoryId = row.categoryId;
+      let categoryData = options.category.filter(
+        (item) => item.id == categoryId
+      )[0];
+      return categoryData.category_name;
+    };
+    const handleSelectionChange = (val) => {
+      let id = val.map((item) => item.id);
+      deleteInfoId.value = id;
+    };
+    const search = () => {
+      console.log(categoryValue);
+      console.log(dateValue.value);
+      console.log(searchKey);
+      console.log(searchKeyWork);
+      let requestData = formatData();
+      console.log(requestData);
+      getList();
+    };
+    const formatData = () => {
       let requestData = {
         pageNumber: page.pageNumber,
         pageSize: page.pageSize,
       };
-      console.log(categoryValue.value)
-      if(categoryValue.value){ requestData.categoryId = categoryValue.value}
-      if(dateValue.value.length>0){
-        requestData.startTime =dateValue.value[0]
-        requestData.endTime =dateValue.value[1]
+      console.log(categoryValue.value);
+      if (categoryValue.value) {
+        requestData.categoryId = categoryValue.value;
       }
-      if(searchKeyWork.value){requestData[searchKey.value] = searchKeyWork.value}
-      return requestData
-    }
-    const editInfo = ( id )=>{
-      console.log(id)
-      infoId.value = id
-      dialogInfoEdit.value = true
-    }
-    const add = ()=>{
-      dialogInfo.value = true
+      if (dateValue.value.length > 0) {
+        requestData.startTime = dateValue.value[0];
+        requestData.endTime = dateValue.value[1];
+      }
+      if (searchKeyWork.value) {
+        requestData[searchKey.value] = searchKeyWork.value;
+      }
+      return requestData;
+    };
+    const editInfo = (id) => {
+      console.log(id);
+      infoId.value = id;
+      dialogInfoEdit.value = true;
+    };
+    const add = () => {
+      dialogInfo.value = true;
+    };
+    const toDetailed =(data)=>{
+      root.$store.commit("infoDetailed/SET_ID",data.id)
+      root.$store.commit("infoDetailed/SET_TITLE",data.title)
+
+      root.$router.push({
+        name:'InfoDetailed',
+        params:{
+          id:data.id,
+          title:data.title
+        }
+      })
     }
 
     //生命周期
@@ -333,7 +373,7 @@ export default {
       //法二
       getInfoCategory1();
 
-      getList()
+      getList();
     });
 
     //监听
@@ -378,6 +418,7 @@ export default {
       formatData,
       editInfo,
       add,
+      toDetailed
     };
   },
 };

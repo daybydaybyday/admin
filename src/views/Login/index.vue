@@ -10,6 +10,7 @@
         >
           {{ item.txt }}
         </li>
+      </ul>
         <!-- 循环遍历输出数组中的数据 -->
         <!-- isActive为true，绑定current ,可以判断多个-->
         <!-- 表单 -->
@@ -92,7 +93,6 @@
             >
           </el-form-item>
         </el-form>
-      </ul>
     </div>
   </div>
 </template>
@@ -101,6 +101,7 @@
 import sha1 from 'js-sha1';
 import { GetSms, Register ,Login } from "@/api/login";
 import { onMounted, reactive, ref } from "@vue/composition-api";
+//导入负责验证的函数
 import {
   stripscript,
   validateEmail,
@@ -112,6 +113,8 @@ export default {
   setup(props, context) {
     //一次性引入context可能会造成资源浪费，我们可以解构单独引入：{refs,root,...}
     //(props,{refs}),此时直接使用结构出的refs，不用context.refs
+
+    //验证函数的形式由element-ui引入
     //验证用户名
     let validateUsername = (rule, value, callback) => {
       if (value === "") {
@@ -218,7 +221,7 @@ export default {
       loginButtonStatus.value=true;
     };
 
-    //提交表单
+    //提交表单(element中方法的格式)
     const submitForm = (formName) => {
       context.refs[formName].validate((valid) => {
         if (valid) {
@@ -247,22 +250,21 @@ export default {
       }
       //修改按钮状态
       codeButtonStatus.status = true;
-
-      codeButtonStatus.text = "发送中";
-
+      //开启倒计时
+      countDown(60);
+      //请求接口
       setTimeout(() => {
         //请求接口
         GetSms({ username: ruleForm.username, module: model.value })
           .then((response) => {
             let data = response.data;
+            //element提示框
             context.root.$message({
               message: data.message,
               type: "success",
             });
             //启动登录注册按钮
             loginButtonStatus.value = false;
-            //请求成功后，开启定时器
-            countDown(60);
           })
           .then((error) => {});
       }, 2000);
@@ -371,13 +373,14 @@ export default {
 
 .login-wrap {
   width: 330px;
+  height: 400px;
   margin: auto;
 }
 
 .menu-tab {
   li {
     text-align: center;
-    display: inline-block;
+    display: inline-block;//可以设置宽高
     width: 88px;
     height: 36px;
     line-height: 36px; //垂直居中
@@ -394,6 +397,7 @@ export default {
 .demo-ruleForm {
   margin-top: 29px;
 
+  //登录注册界面的文字样式
   label {
     margin-bottom: 3px;
     display: block;
@@ -421,7 +425,7 @@ export default {
 
 2  后台加密
 接收到前端发送来的加密字符串
-后台再次加密  md5('加密字符串)
+后台再次加密  md5('加密字符串')
 将最终的字符串写入数据库
 
 3.登录

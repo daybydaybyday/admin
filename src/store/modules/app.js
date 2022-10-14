@@ -24,7 +24,7 @@ const getters = {
 const mutations = {
     // 必须的 同步  不需要回调函数
     SET_COLLAPSE: (state) => {
-        state.isCollapse = !state.isCollapse
+        state.isCollapse = !state.isCollapseup
         //此处为临时性文件
         //Cookie.set('isCollapse',JSON.stringify(state.isCollapse))
         sessionStorage.setItem('isCollapse', JSON.stringify(state.isCollapse))
